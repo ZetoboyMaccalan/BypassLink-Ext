@@ -58,12 +58,13 @@ Auto Bypass
 Struktur File
 
 sfl-bypass-ext/
-├── manifest.json     ← konfigurasi extension
-├── background.js     ← logic resolver sfl.gl (service worker)
-├── content.js        ← floating button + dialog (inject ke semua halaman)
-├── popup.html        ← UI toggle enable/disable
-├── popup.js          ← logika popup
-└── icons/            ← icon extension
+
+├── manifest.json    ← konfigurasi extension
+├── background.js    ← logic resolver sfl.gl (service worker)
+├── content.js       ← floating button + dialog (inject ke semua halaman)
+├── popup.html       ← UI toggle enable/disable
+├── popup.js         ← logika popup
+└── icons/           ← icon extension
 
 Catatan
 
