@@ -36,6 +36,6 @@ sfl-bypass-ext/
 ## Catatan
 
 - Hanya support **sfl.gl** untuk sekarang
-- Logic resolver sama persis dengan `resolve.ts` versi Vercel
+- Logic resolver sama persis dengan `resolve.ts` versi Web
 - Tidak butuh internet ke server eksternal (pure extension)
 - `host_permissions` di manifest.json yang bypass CORS
