@@ -29,6 +29,14 @@ Cara Install
 4. Pilih folder "sfl-bypass-ext" ini
 5. Extension siap dipakai!
 
+**Catatan untuk pengguna HP (Android):**  
+Extension ini juga dapat digunakan di browser berbasis Chromium yang mendukung ekstensi desktop, seperti:
+- **Lemur Browser**
+- **Kiwi Browser**
+- **Quetta Browser**
+
+Cukup install extension dengan metode "Load unpacked" di browser tersebut, lalu aktifkan mode Auto Bypass untuk pengalaman terbaik.
+
 Cara Pakai
 
 Manual Bypass
