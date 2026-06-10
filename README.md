@@ -15,7 +15,8 @@ Auto Bypass
 
 Manual Bypass
 
-- Klik icon extension atau floating button
+- Klik icon extension, aktifkan fitur floating button
+- Klik floating button
 - Tempel link "sfl.gl"
 - Klik Bypass Sekarang
 - Salin atau buka URL hasil bypass
