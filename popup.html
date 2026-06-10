@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFL Bypass</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 270px;
+      background: #0A0E27;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #4f46e5, #7c3aed);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    .container { padding: 16px 16px 18px; }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .logo {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo svg {
+      width: 17px; height: 17px; fill: none;
+      stroke: #a78bfa; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .title { font-size: 15px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.02em; }
+    .subtitle { font-size: 11px; color: #475569; margin-top: 1px; }
+
+    /* Section label */
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    /* Toggle card */
+    .toggle-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      margin-bottom: 8px;
+    }
+    .toggle-card:last-of-type { margin-bottom: 0; }
+    .toggle-card:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(124,58,237,0.3);
+    }
+    .toggle-card.active {
+      background: rgba(124,58,237,0.08);
+      border-color: rgba(124,58,237,0.35);
+    }
+    /* Auto card warna beda dikit saat aktif */
+    .toggle-card.auto-card.active {
+      background: rgba(16,185,129,0.07);
+      border-color: rgba(16,185,129,0.3);
+    }
+
+    .card-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .card-icon {
+      width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .toggle-card.active .card-icon { background: rgba(124,58,237,0.15); }
+    .toggle-card.auto-card.active .card-icon { background: rgba(16,185,129,0.12); }
+    .card-icon svg {
+      width: 14px; height: 14px; fill: none;
+      stroke: #475569; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+      transition: stroke 0.15s;
+    }
+    .toggle-card.active .card-icon svg { stroke: #a78bfa; }
+    .toggle-card.auto-card.active .card-icon svg { stroke: #34d399; }
+
+    .card-text {}
+    .card-title { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+    .card-desc { font-size: 11px; color: #475569; margin-top: 1px; transition: color 0.15s; }
+    .toggle-card.active .card-desc { color: #a78bfa; }
+    .toggle-card.auto-card.active .card-desc { color: #6ee7b7; }
+
+    /* Switch */
+    .switch {
+      width: 38px; height: 21px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 11px; position: relative;
+      transition: background 0.2s ease; flex-shrink: 0;
+    }
+    .switch.on { background: linear-gradient(135deg, #7c3aed, #4f46e5); }
+    .switch.on.green { background: linear-gradient(135deg, #059669, #10b981); }
+    .switch::after {
+      content: '';
+      position: absolute; top: 2.5px; left: 2.5px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .switch.on::after { transform: translateX(17px); }
+
+    /* Status row */
+    .status-row {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .status-row.active-float {
+      background: rgba(124,58,237,0.06);
+      border-color: rgba(124,58,237,0.15);
+    }
+    .status-row.active-auto {
+      background: rgba(16,185,129,0.05);
+      border-color: rgba(16,185,129,0.15);
+    }
+    .status-row.active-both {
+      background: rgba(124,58,237,0.06);
+      border-color: rgba(124,58,237,0.2);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #334155; flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+    .status-dot.purple { background: #7c3aed; box-shadow: 0 0 6px rgba(124,58,237,0.5); animation: blink 2s infinite; }
+    .status-dot.green  { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.5); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .status-text { font-size: 11px; color: #475569; }
+    .status-row.active-float .status-text { color: #c4b5fd; }
+    .status-row.active-auto  .status-text { color: #6ee7b7; }
+    .status-row.active-both  .status-text { color: #c4b5fd; }
+
+    /* Divider */
+    .divider { height: 1px; background: rgba(255,255,255,0.05); margin: 14px 0 12px; }
+
+    /* Footer */
+    .footer { display: flex; align-items: center; justify-content: space-between; }
+    .badge { font-size: 10px; color: #334155; font-weight: 500; }
+    .badge span { color: #7c3aed; }
+    .version { font-size: 10px; color: #1e293b; }
+  </style>
+</head>
+<body>
+  <div class="top-bar"></div>
+  <div class="container">
+
+    <div class="header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+      </div>
+      <div>
+        <div class="title">SFL Bypass</div>
+        <div class="subtitle">sfl.gl link resolver</div>
+      </div>
+    </div>
+
+    <div class="section-label">Mode Aktivasi</div>
+
+    <!-- Card 1: Floating Button -->
+    <div class="toggle-card" id="floatCard">
+      <div class="card-left">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <div class="card-title">Floating Button</div>
+          <div class="card-desc" id="floatDesc">Nonaktif</div>
+        </div>
+      </div>
+      <div class="switch" id="floatSwitch"></div>
+    </div>
+
+    <!-- Card 2: Auto Bypass -->
+    <div class="toggle-card auto-card" id="autoCard">
+      <div class="card-left">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <div class="card-title">Auto Bypass</div>
+          <div class="card-desc" id="autoDesc">Nonaktif</div>
+        </div>
+      </div>
+      <div class="switch" id="autoSwitch"></div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-row" id="statusRow">
+      <div class="status-dot" id="statusDot"></div>
+      <span class="status-text" id="statusText">Semua mode nonaktif</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <div class="badge">Mendukung <span>sfl.gl</span></div>
+      <div class="version">v1.1.0</div>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
